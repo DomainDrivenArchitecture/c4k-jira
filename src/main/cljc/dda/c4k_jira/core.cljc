@@ -12,14 +12,16 @@
 (def config? (s/keys :req-un [::jira/fqdn]
                      :opt-un [::jira/issuer]))
 
-(def auth? (s/keys :req-un []))
+(def auth? (s/keys :req-un [::jira/db-user-name ::jira/db-user-password]))
 
 (defn-spec generate any?
   [my-config config?
    my-auth auth?]
   (let [resulting-config (merge config-defaults my-config)]
     (cs/join "\n"
-             [(yaml/to-string (jira/generate-persistent-volume))
+             [(yaml/to-string (jira/generate-secret my-auth))
+              "---"
+              (yaml/to-string (jira/generate-persistent-volume))
               "---"
               (yaml/to-string (jira/generate-pvc))
               "---"

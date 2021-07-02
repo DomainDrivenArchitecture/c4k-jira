@@ -10,6 +10,13 @@
 (s/def ::fqdn cm/fqdn-string?)
 (s/def ::issuer cm/letsencrypt-issuer?)
 
+(defn generate-secret [auth]
+  (let [{:keys [db-user-name db-user-password]} auth]
+    (->
+     (yaml/from-string (yaml/load-resource "jira/secret.yaml"))
+     (assoc-in [:data :db-user-name] db-user-name)
+     (assoc-in [:data :db-user-password] db-user-password))))
+
 (defn generate-certificate [config]
   (let [{:keys [fqdn issuer]
          :or {issuer :staging}} config
@@ -39,6 +46,6 @@
   (yaml/from-string (yaml/load-resource "jira/service.yaml")))
 
 (defn generate-pod [config]
-  (let [{:keys [fqdn db-user-name db-user-password]}]
+  (let [{:keys [fqdn db-user-name db-user-password]} config]
     (-> (yaml/from-string (yaml/load-resource "jira/pod.yaml"))
         (assoc-in [:spec :containers :args] [fqdn, db-user-name, db-user-password]))))
