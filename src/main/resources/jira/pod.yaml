@@ -1,0 +1,20 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: jira-app
+  labels:
+    app: jira
+spec:
+  containers:
+    - name: jira-app
+      image: domaindrivenarchitecture/meissa-jira-crate
+      imagePullPolicy: IfNotPresent
+      command: ["/app/entrypoint.sh"]
+      args: ["{{fqdn}}", "{{db-user-name}}", "{{db-user-password}}"]
+      volumeMounts:
+          - mountPath: /var/jira
+            name: jira-data-volume
+  volumes:
+    - name: jira-data-volume
+      persistentVolumeClaim:
+        claimName: jira-pvc
