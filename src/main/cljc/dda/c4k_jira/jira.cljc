@@ -48,4 +48,4 @@
 (defn generate-pod [config]
   (let [{:keys [fqdn db-user-name db-user-password]} config]
     (-> (yaml/from-string (yaml/load-resource "jira/pod.yaml"))
-        (assoc-in [:spec :containers :args] [fqdn, db-user-name, db-user-password]))))
+        (assoc-in [:spec :containers 0 :args] [fqdn, db-user-name, db-user-password]))))
