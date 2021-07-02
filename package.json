@@ -1,0 +1,33 @@
+{
+  "name": "c4k-jira",
+  "description": "Generate c4k yaml for a jira deployment.",
+  "author": "meissa GmbH",
+  "version": "0.1.0-SNAPSHOT",
+  "homepage": "https://gitlab.com/domaindrivenarchitecture/c4k-jira#readme",
+  "repository": "https://www.npmjs.com/package/c4k-jira",
+  "license": "APACHE2",
+  "main": "c4k-jira.js",
+  "bin": {
+    "c4k-jira": "./c4k-jira.js"
+  },
+  "keywords": [
+    "cljs",
+    "jira",
+    "k8s",
+    "c4k",
+    "deployment",
+    "yaml",
+    "convention4kubernetes"
+  ],
+  "bugs": {
+    "url": "https://gitlab.com/domaindrivenarchitecture/c4k-jira/issues"
+  },
+  "dependencies": {
+    "js-base64": "^3.6.1",
+    "js-yaml": "^4.0.0"
+  },
+  "devDependencies": {
+    "shadow-cljs": "^2.11.18",
+    "source-map-support": "^0.5.19"
+  }
+}
