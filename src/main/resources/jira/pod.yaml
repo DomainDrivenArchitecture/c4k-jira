@@ -10,7 +10,7 @@ spec:
       image: domaindrivenarchitecture/meissa-jira-crate
       imagePullPolicy: IfNotPresent
       command: ["/app/entrypoint.sh"]
-      args: ["{{fqdn}}", "{{db-user-name}}", "{{db-user-password}}"]
+      args: ["fqdn", "db-user-name", "db-user-password"]
       volumeMounts:
           - mountPath: /var/jira
             name: jira-data-volume

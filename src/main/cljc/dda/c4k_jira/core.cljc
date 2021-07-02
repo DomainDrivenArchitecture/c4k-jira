@@ -19,4 +19,14 @@
    my-auth auth?]
   (let [resulting-config (merge config-defaults my-config)]
     (cs/join "\n"
-             [])))
+             [(yaml/to-string (jira/generate-persistent-volume))
+              "---"
+              (yaml/to-string (jira/generate-pvc))
+              "---"
+              (yaml/to-string (jira/generate-certificate resulting-config))
+              "---"
+              (yaml/to-string (jira/generate-ingress resulting-config))
+              "---"
+              (yaml/to-string (jira/generate-service))
+              "---"
+              (yaml/to-string (jira/generate-pod resulting-config))])))
