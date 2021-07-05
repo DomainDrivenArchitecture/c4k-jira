@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
     - name: jira-app
-      image: domaindrivenarchitecture/meissa-jira-crate
+      image: domaindrivenarchitecture/c4k-jira
       imagePullPolicy: IfNotPresent
       command: ["/app/entrypoint.sh"]
       args: ["fqdn", "db-user-name", "db-user-password"]
