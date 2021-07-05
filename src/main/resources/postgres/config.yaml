@@ -5,7 +5,7 @@ metadata:
   labels:
     app: postgres
 data:
-  postgres-db: keycloak
+  postgres-db: jira
   postgresql.conf: |
     max_connections = 1000
     shared_buffers = 512MB

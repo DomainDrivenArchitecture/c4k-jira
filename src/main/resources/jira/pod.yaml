@@ -6,15 +6,27 @@ metadata:
     app: jira
 spec:
   containers:
-    - name: jira-app
-      image: domaindrivenarchitecture/c4k-jira
+    - image: domaindrivenarchitecture/c4k-jira
+      name: jira-app
       imagePullPolicy: IfNotPresent
+      env:
+        - name: DB_USERNAME_FILE
+          value: /var/run/secrets/postgres-secret/postgres-user
+        - name: DB_PASSWORD_FILE
+          value: /var/run/secrets/postgres-secret/postgres-password
+        - name: FQDN
+          value: fqdn
       command: ["/app/entrypoint.sh"]
-      args: ["fqdn", "db-user-name", "db-user-password"]
       volumeMounts:
-          - mountPath: /var/jira
-            name: jira-data-volume
+        - mountPath: /var/jira
+          name: jira-data-volume
+        - name: postgres-secret-volume
+          mountPath: /var/run/secrets/postgres-secret
+          readOnly: true
   volumes:
     - name: jira-data-volume
       persistentVolumeClaim:
         claimName: jira-pvc
+    - name: postgres-secret-volume
+      secret:
+        secretName: postgres-secret

@@ -40,7 +40,12 @@ spec:
               mountPath: /etc/postgresql/postgresql.conf
               subPath: postgresql.conf
               readOnly: true
+            - name: postgre-data-volume
+              mountPath: /var/lib/postgresql/data
       volumes:
         - name: postgres-config-volume
           configMap:
             name: postgres-config
+        - name: postgre-d
+          persistentVolumeClaim:
+            claimName: postgres-claim
