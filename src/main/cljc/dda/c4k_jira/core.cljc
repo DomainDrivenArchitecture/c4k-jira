@@ -14,39 +14,31 @@
                      :opt-un [::jira/issuer ::jira/jira-data-volume-path
                               ::postgres/postgres-data-volume-path]))
 
-(def auth? (s/keys :req-un [::postgres/db-user-name ::postgres/db-user-password]))
+(def auth? (s/keys :req-un [::postgres/postgres-db-user ::postgres/postgres-db-password]))
+
+(defn k8s-objects [config]
+  (into
+   []
+   (concat [(yaml/to-string (postgres/generate-config))
+            (yaml/to-string (postgres/generate-secret config))]
+           (when (contains? config :postgres-data-volume-path)
+             [(yaml/to-string (postgres/generate-persistent-volume config))])
+           [(yaml/to-string (postgres/generate-pvc))
+            (yaml/to-string (postgres/generate-deployment))
+            (yaml/to-string (postgres/generate-service))]
+           (when (contains? config :jira-data-volume-path)
+             [(yaml/to-string (jira/generate-persistent-volume config))])
+           [(yaml/to-string (jira/generate-pvc))
+            (yaml/to-string (jira/generate-pod config))
+            (yaml/to-string (jira/generate-service))
+            (yaml/to-string (jira/generate-certificate config))
+            (yaml/to-string (jira/generate-ingress config))
+            (yaml/to-string (jira/generate-service))])))
 
 (defn-spec generate any?
   [my-config config?
    my-auth auth?]
   (let [resulting-config (merge config-defaults my-config my-auth)]
     (cs/join
-     "\n"
-     (into
-      [(yaml/to-string (postgres/generate-config))
-       "---"
-       (yaml/to-string (postgres/generate-secret resulting-config))]
-      (when-some [{:keys [postgres-data-volume-path]} resulting-config]
-        ["---"
-         (yaml/to-string (postgres/generate-persistent-volume resulting-config))])
-      ["---"
-       (yaml/to-string (postgres/generate-pvc))
-       "---"
-       (yaml/to-string (postgres/generate-deployment))
-       "---"
-       (yaml/to-string (postgres/generate-service))]
-      (when-some [{:keys [jira-data-volume-path]} resulting-config]
-        ["---"
-         (yaml/to-string (jira/generate-persistent-volume resulting-config))])
-      ["---"
-       (yaml/to-string (jira/generate-pvc))
-       "---"
-       (yaml/to-string (jira/generate-pod resulting-config))
-       "---"
-       (yaml/to-string (jira/generate-service))
-       "---"
-       (yaml/to-string (jira/generate-certificate resulting-config))
-       "---"
-       (yaml/to-string (jira/generate-ingress resulting-config))
-       "---"
-       (yaml/to-string (jira/generate-service))]))))
+     "\n---\n"
+     (k8s-objects resulting-config))))

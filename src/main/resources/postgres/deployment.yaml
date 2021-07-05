@@ -46,6 +46,6 @@ spec:
         - name: postgres-config-volume
           configMap:
             name: postgres-config
-        - name: postgre-d
+        - name: postgre-data-volume
           persistentVolumeClaim:
             claimName: postgres-claim

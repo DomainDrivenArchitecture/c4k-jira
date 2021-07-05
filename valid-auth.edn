@@ -1,2 +1,2 @@
-{:db-user-name "jira"
- :db-user-password "jira-db-password"}
+{:postgres-db-user "jira"
+ :postgres-db-password "jira-db-password"}
