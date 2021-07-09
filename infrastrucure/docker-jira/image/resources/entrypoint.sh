@@ -1,23 +1,5 @@
 #!/bin/bash
 
-function main() {
-    local fqdn_value=file_env "FQDN"
-    local db_username_value=file_env "DB_USERNAME"
-    local db_username_value=file_env "DB_PASSWORD"
-
-    xmlstarlet ed -L -u "/Server/Service/Connector[@proxyName='{subdomain}.{domain}.com']/@proxyName" \
-        -v "$fqdn_value" /opt/atlassian-jira-software-standalone/conf/server.xml
-    xmlstarlet ed -L -u "/jira-database-config/jdbc-datasource/username" \
-        -v "$db_username_value" /app/dbconfig.xml
-    xmlstarlet ed -L -u "/jira-database-config/jdbc-datasource/password" \
-        -v "$db_username_value" /app/dbconfig.xml
-
-    install -ojira -gjira -m660 /app/dbconfig.xml /var/jira/dbconfig.xml
-    /opt/atlassian-jira-software-standalone/bin/setenv.sh run
-    /opt/atlassian-jira-software-standalone/bin/start-jira.sh run
-}
-
-
 # usage: file_env VAR [DEFAULT]
 #    ie: file_env 'XYZ_DB_PASSWORD' 'example'
 # (will allow for "$XYZ_DB_PASSWORD_FILE" to fill in the value of
@@ -40,6 +22,23 @@ function file_env() {
         export "$var"="$def"
     fi
     unset "$fileVar"
+}
+
+function main() {
+    local fqdn_value=$(file_env "FQDN")
+    local db_username_value=$(file_env "DB_USERNAME")
+    local db_username_value=$(file_env "DB_PASSWORD")
+
+    xmlstarlet ed -L -u "/Server/Service/Connector[@proxyName='{subdomain}.{domain}.com']/@proxyName" \
+        -v "$fqdn_value" /opt/atlassian-jira-software-standalone/conf/server.xml
+    xmlstarlet ed -L -u "/jira-database-config/jdbc-datasource/username" \
+        -v "$db_username_value" /app/dbconfig.xml
+    xmlstarlet ed -L -u "/jira-database-config/jdbc-datasource/password" \
+        -v "$db_username_value" /app/dbconfig.xml
+
+    install -ojira -gjira -m660 /app/dbconfig.xml /var/jira/dbconfig.xml
+    /opt/atlassian-jira-software-standalone/bin/setenv.sh run
+    /opt/atlassian-jira-software-standalone/bin/start-jira.sh run
 }
 
 main
