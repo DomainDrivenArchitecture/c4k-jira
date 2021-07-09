@@ -15,7 +15,7 @@ The package aims to a low load sceanrio.
 
 ## Status
 
-This is just a POC, database is stored volatile, there is no backup implemented.
+This is under development.
 
 ## License
 
