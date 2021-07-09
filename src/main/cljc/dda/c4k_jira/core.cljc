@@ -5,8 +5,8 @@
   #?(:clj [orchestra.core :refer [defn-spec]]
      :cljs [orchestra.core :refer-macros [defn-spec]])
   [dda.c4k-common.yaml :as yaml]
+  [dda.c4k-common.postgres :as postgres]
   [dda.c4k-jira.jira :as jira]
-  [dda.c4k-jira.postgres :as postgres]
   [dda.c4k-jira.backup :as backup]))
 
 (def config-defaults {:issuer :staging})

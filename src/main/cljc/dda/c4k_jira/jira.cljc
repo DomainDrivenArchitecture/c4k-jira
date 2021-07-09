@@ -1,12 +1,24 @@
 (ns dda.c4k-jira.jira
  (:require
   [clojure.spec.alpha :as s]
+  #?(:cljs [shadow.resource :as rc])
   [dda.c4k-common.yaml :as yaml]
   [dda.c4k-common.common :as cm]))
 
 (s/def ::fqdn cm/fqdn-string?)
 (s/def ::issuer cm/letsencrypt-issuer?)
 (s/def ::jira-data-volume-path string?)
+
+#?(:cljs
+   (defmethod yaml/load-resource :jira [resource-name]
+     (case resource-name
+       "jira/certificate.yaml" (rc/inline "jira/certificate.yaml")
+       "jira/ingress.yaml" (rc/inline "jira/ingress.yaml")
+       "jira/persistent-volume.yaml" (rc/inline "jira/persistent-volume.yaml")
+       "jira/pod.yaml" (rc/inline "jira/pod.yaml")
+       "jira/pvc.yaml" (rc/inline "jira/pvc.yaml")
+       "jira/service.yaml" (rc/inline "jira/service.yaml")
+       (throw (js/Error. "Undefined Resource!")))))
 
 (defn generate-certificate [config]
   (let [{:keys [fqdn issuer]} config
