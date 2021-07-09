@@ -124,10 +124,18 @@ release:
         --assets-link "{\"name\":\"c4k-jira.js.sha256\",\"url\":\"https://gitlab.com/domaindrivenarchitecture/c4k-jira/-/jobs/${CI_JOB_ID}/artifacts/file/target/frontend-build/c4k-jira.js.sha256\"}" \
         --assets-link "{\"name\":\"c4k-jira.js.sha512\",\"url\":\"https://gitlab.com/domaindrivenarchitecture/c4k-jira/-/jobs/${CI_JOB_ID}/artifacts/file/target/frontend-build/c4k-jira.js.sha512\"}" \
 
-image-test-publish:
+jira-image-test-publish:
   image: domaindrivenarchitecture/devops-build:latest
   stage: image
   rules:
     - if: '$CI_COMMIT_TAG != null'
   script:
-    - cd infrastructure/docker && pyb image test publish
+    - cd infrastructure/docker-jira && pyb image test publish
+
+backup-image-test-publish:
+  image: domaindrivenarchitecture/devops-build:latest
+  stage: image
+  rules:
+    - if: '$CI_COMMIT_TAG != null'
+  script:
+    - cd infrastructure/docker-backup && pyb image test publish
