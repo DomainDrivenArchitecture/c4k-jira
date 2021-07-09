@@ -1,3 +1,4 @@
 {:fqdn "jira-neu.prod.meissa-gmbh.de"
  :jira-data-volume-path "/var/jira"
- :postgres-data-volume-path "/var/postgres"}
+ :postgres-data-volume-path "/var/postgres"
+ :restic-repository "restic-repository"}

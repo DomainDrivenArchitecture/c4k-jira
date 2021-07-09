@@ -1,2 +1,5 @@
 {:postgres-db-user "jira"
- :postgres-db-password "jira-db-password"}
+ :postgres-db-password "jira-db-password"
+ :aws-access-key-id "aws-id"
+ :aws-secret-access-key "aws-secret"
+ :restic-password "restic-password"}
