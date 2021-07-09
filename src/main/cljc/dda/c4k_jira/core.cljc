@@ -6,15 +6,18 @@
      :cljs [orchestra.core :refer-macros [defn-spec]])
   [dda.c4k-common.yaml :as yaml]
   [dda.c4k-jira.jira :as jira]
-  [dda.c4k-jira.postgres :as postgres]))
+  [dda.c4k-jira.postgres :as postgres]
+  [dda.c4k-jira.backup :as backup]))
 
 (def config-defaults {:issuer :staging})
 
-(def config? (s/keys :req-un [::jira/fqdn]
+(def config? (s/keys :req-un [::jira/fqdn ::restic-repository]
                      :opt-un [::jira/issuer ::jira/jira-data-volume-path
                               ::postgres/postgres-data-volume-path]))
 
-(def auth? (s/keys :req-un [::postgres/postgres-db-user ::postgres/postgres-db-password]))
+(def auth? (s/keys :req-un [::postgres/postgres-db-user ::postgres/postgres-db-password
+                            ::aws-access-key-id ::aws-secret-access-key
+                            ::restic-password]))
 
 (defn k8s-objects [config]
   (into
@@ -33,7 +36,10 @@
             (yaml/to-string (jira/generate-service))
             (yaml/to-string (jira/generate-certificate config))
             (yaml/to-string (jira/generate-ingress config))
-            (yaml/to-string (jira/generate-service))])))
+            (yaml/to-string (jira/generate-service))]
+           [(yaml/to-string (backup/generate-config config))
+            (yaml/to-string (backup/generate-secret config))
+            (yaml/to-string (backup/generate-cron))])))
 
 (defn-spec generate any?
   [my-config config?
