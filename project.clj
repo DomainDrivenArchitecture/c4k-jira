@@ -1,4 +1,4 @@
-(defproject org.domaindrivenarchitecture/c4k-jira "0.1.0-SNAPSHOT"
+(defproject org.domaindrivenarchitecture/c4k-jira "0.1.0"
   :description "jira c4k-installation package"
   :url "https://domaindrivenarchitecture.org"
   :license {:name "Apache License, Version 2.0"
@@ -25,7 +25,8 @@
                                       [ch.qos.logback/logback-classic "1.3.0-alpha4"
                                        :exclusions [com.sun.mail/javax.mail]]
                                       [org.slf4j/jcl-over-slf4j "2.0.0-alpha1"]]}}
-  :release-tasks [["vcs" "assert-committed"]
+  :release-tasks [["test"]
+                  ["vcs" "assert-committed"]
                   ["change" "version" "leiningen.release/bump-version" "release"]
                   ["vcs" "commit"]
                   ["vcs" "tag"]
