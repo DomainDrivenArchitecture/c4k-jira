@@ -6,8 +6,8 @@ metadata:
     app.kubernetes.part-of: jira
 spec:
   schedule: "10 23 * * *"
-  successfulJobsHistoryLimit: 0
-  failedJobsHistoryLimit: 0
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
   jobTemplate:
     spec:
       template:
