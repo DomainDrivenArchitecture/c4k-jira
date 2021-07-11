@@ -13,9 +13,9 @@
    (defmethod yaml/load-resource :jira [resource-name]
      (case resource-name
        "jira/certificate.yaml" (rc/inline "jira/certificate.yaml")
+       "jira/deployment.yaml" (rc/inline "jira/deployment.yaml")
        "jira/ingress.yaml" (rc/inline "jira/ingress.yaml")
        "jira/persistent-volume.yaml" (rc/inline "jira/persistent-volume.yaml")
-       "jira/pod.yaml" (rc/inline "jira/pod.yaml")
        "jira/pvc.yaml" (rc/inline "jira/pvc.yaml")
        "jira/service.yaml" (rc/inline "jira/service.yaml")
        (throw (js/Error. "Undefined Resource!")))))
@@ -28,6 +28,11 @@
      (assoc-in [:spec :commonName] fqdn)
      (assoc-in [:spec :dnsNames] [fqdn])
      (assoc-in [:spec :issuerRef :name] letsencrypt-issuer))))
+
+(defn generate-deployment [config]
+  (let [{:keys [fqdn]} config]
+    (-> (yaml/from-string (yaml/load-resource "jira/deployment.yaml"))
+        (cm/replace-named-value "FQDN" fqdn))))
 
 (defn generate-ingress [config]
   (let [{:keys [fqdn issuer]
@@ -43,11 +48,6 @@
     (-> 
      (yaml/from-string (yaml/load-resource "jira/persistent-volume.yaml"))
      (assoc-in [:spec :hostPath :path] jira-data-volume-path))))
-
-(defn generate-pod [config]
-  (let [{:keys [fqdn]} config]
-    (-> (yaml/from-string (yaml/load-resource "jira/pod.yaml"))
-        (cm/replace-named-value "FQDN" fqdn))))
 
 (defn generate-pvc []
   (yaml/from-string (yaml/load-resource "jira/pvc.yaml")))

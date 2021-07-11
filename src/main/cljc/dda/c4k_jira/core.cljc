@@ -32,7 +32,7 @@
            (when (contains? config :jira-data-volume-path)
              [(yaml/to-string (jira/generate-persistent-volume config))])
            [(yaml/to-string (jira/generate-pvc))
-            (yaml/to-string (jira/generate-pod config))
+            (yaml/to-string (jira/generate-deployment config))
             (yaml/to-string (jira/generate-service))
             (yaml/to-string (jira/generate-certificate config))
             (yaml/to-string (jira/generate-ingress config))
