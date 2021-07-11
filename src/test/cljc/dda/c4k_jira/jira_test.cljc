@@ -53,12 +53,8 @@
            :hostPath {:path "xx"}}}
          (cut/generate-persistent-volume {:jira-data-volume-path "xx"}))))
 
-(deftest should-generate-pod
-  (is (= {:kind "Pod"
-          :apiVersion "v1"
-          :metadata {:name "jira-app", :labels {:app "jira"}}
-          :spec
-          {:containers
+(deftest should-generate-deployment
+  (is (= {:containers
            [{:image "domaindrivenarchitecture/c4k-jira"
              :name "jira-app"
              :imagePullPolicy "IfNotPresent"
@@ -80,5 +76,5 @@
            [{:name "jira-data-volume"
              :persistentVolumeClaim {:claimName "jira-pvc"}}
             {:name "postgres-secret-volume"
-             :secret {:secretName "postgres-secret"}}]}}
-         (cut/generate-pod {:fqdn "xx"}))))
+             :secret {:secretName "postgres-secret"}}]}
+         (get-in (cut/generate-deployment {:fqdn "xx"}) [:spec :template :spec]))))
