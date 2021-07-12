@@ -11,9 +11,9 @@
 
 (def config-defaults {:issuer :staging})
 
-(def config? (s/keys :req-un [::jira/fqdn ::restic-repository]
+(def config? (s/keys :req-un [::jira/fqdn]
                      :opt-un [::jira/issuer ::jira/jira-data-volume-path
-                              ::postgres/postgres-data-volume-path]))
+                              ::postgres/postgres-data-volume-path ::restic-repository]))
 
 (def auth? (s/keys :req-un [::postgres/postgres-db-user ::postgres/postgres-db-password
                             ::aws-access-key-id ::aws-secret-access-key
@@ -37,9 +37,10 @@
             (yaml/to-string (jira/generate-certificate config))
             (yaml/to-string (jira/generate-ingress config))
             (yaml/to-string (jira/generate-service))]
-           [(yaml/to-string (backup/generate-config config))
-            (yaml/to-string (backup/generate-secret config))
-            (yaml/to-string (backup/generate-cron))])))
+           (when (contains? config :restic-repository)
+             [(yaml/to-string (backup/generate-config config))
+              (yaml/to-string (backup/generate-secret config))
+              (yaml/to-string (backup/generate-cron))]))))
 
 (defn-spec generate any?
   [my-config config?

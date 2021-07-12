@@ -24,4 +24,12 @@
                                   :aws-access-key-id "aws-id"
                                   :aws-secret-access-key "aws-secret"
                                   :restic-password "restic-pw"
-                                  :restic-repository "restic-repository"})))))
+                                  :restic-repository "restic-repository"}))))
+  (is (= 11
+         (count (cut/k8s-objects {:fqdn "jira-neu.prod.meissa-gmbh.de"
+                                  :postgres-db-user "jira"
+                                  :postgres-db-password "jira-db-password"
+                                  :issuer :prod
+                                  :aws-access-key-id "aws-id"
+                                  :aws-secret-access-key "aws-secret"
+                                  :restic-password "restic-pw"})))))
