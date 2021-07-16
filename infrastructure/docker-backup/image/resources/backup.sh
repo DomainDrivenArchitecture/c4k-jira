@@ -17,5 +17,6 @@ function main() {
 
 source /usr/local/lib/functions.sh
 source /usr/local/lib/file-functions.sh
+source /usr/local/lib/pg-functions.sh
 
 main
