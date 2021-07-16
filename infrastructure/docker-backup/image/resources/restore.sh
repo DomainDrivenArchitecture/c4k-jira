@@ -21,7 +21,7 @@ function main() {
 
     # Restore db
     drop-create-db
-    #restore-roles
+    restore-roles
     restore-db
 }
 

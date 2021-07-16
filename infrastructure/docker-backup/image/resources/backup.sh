@@ -10,7 +10,7 @@ function main() {
     file_env POSTGRES_USER
     file_env RESTIC_DAYS_TO_KEEP 14
 
-    #backup-roles 'oc_' TODO: lookup for jira roles (Also in init.sh & restore.sh)
+    backup-roles ""
     backup-db-dump
     backup-fs-from-directory '/var/backups/' 'data/'
 }
