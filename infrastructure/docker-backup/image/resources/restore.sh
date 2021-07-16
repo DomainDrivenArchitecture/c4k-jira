@@ -11,6 +11,8 @@ function main() {
     file_env POSTGRES_PASSWORD
     file_env POSTGRES_USER
 
+    # Im Jira pod: /opt/atlassian-jira-software-standalone/bin/stop-jira.sh
+
     # Restore latest snapshot into /var/backups/restic-restore
     rm -rf /var/backups/restic-restore
     restore-directory '/var/backups/restic-restore'
@@ -23,6 +25,8 @@ function main() {
     drop-create-db
     restore-roles
     restore-db
+
+    # /opt/atlassian-jira-software-standalone/bin/start-jira.sh
 }
 
 source /usr/local/lib/functions.sh

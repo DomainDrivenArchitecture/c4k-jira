@@ -20,7 +20,7 @@
           :metadata {:name "backup-config"
                      :labels {:app.kubernetes.io/name "backup"
                               :app.kubernetes.io/part-of "jira"}}
-          :stringData
+          :data
           {:restic-repository "s3:restic-repository"}}
          (cut/generate-config {:restic-repository "s3:restic-repository"}))))
 
