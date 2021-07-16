@@ -1,6 +1,11 @@
 #!/bin/bash
 
 function main() {
+    file_env POSTGRES_DB
+    file_env POSTGRES_PASSWORD
+    file_env POSTGRES_USER
+ 
+    create-pg-pass
 
     while true; do
         sleep 1m
