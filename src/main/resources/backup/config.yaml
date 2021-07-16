@@ -5,5 +5,5 @@ metadata:
   labels:
     app.kubernetes.io/name: backup
     app.kubernetes.io/part-of: jira
-data:
+stringData:
   restic-repository: restic-repository

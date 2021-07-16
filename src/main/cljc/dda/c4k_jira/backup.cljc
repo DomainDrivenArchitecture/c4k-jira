@@ -23,7 +23,7 @@
   (let [{:keys [restic-repository]} my-conf]
     (->
      (yaml/from-string (yaml/load-resource "backup/config.yaml"))
-     (cm/replace-key-value :restic-repository (b64/encode restic-repository)))))
+     (cm/replace-key-value :restic-repository restic-repository))))
 
 (defn generate-cron []
    (yaml/from-string (yaml/load-resource "backup/cron.yaml")))

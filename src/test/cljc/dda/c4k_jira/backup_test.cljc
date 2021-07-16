@@ -20,9 +20,9 @@
           :metadata {:name "backup-config"
                      :labels {:app.kubernetes.io/name "backup"
                               :app.kubernetes.io/part-of "jira"}}
-          :data
-          {:restic-repository "cmVzdGljLXJlcG9zaXRvcnk="}}
-         (cut/generate-config {:restic-repository "restic-repository"}))))
+          :stringData
+          {:restic-repository "s3:restic-repository"}}
+         (cut/generate-config {:restic-repository "s3:restic-repository"}))))
 
 (deftest should-generate-cron
   (is (= {:apiVersion "batch/v1beta1"
