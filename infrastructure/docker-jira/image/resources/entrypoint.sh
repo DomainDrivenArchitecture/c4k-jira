@@ -25,16 +25,16 @@ function file_env() {
 }
 
 function main() {
-    local fqdn_value=$(file_env "FQDN")
-    local db_username_value=$(file_env "DB_USERNAME")
-    local db_username_value=$(file_env "DB_PASSWORD")
+    file_env "FQDN"
+    file_env "DB_USERNAME"
+    file_env "DB_PASSWORD"
 
     xmlstarlet ed -L -u "/Server/Service/Connector[@proxyName='{subdomain}.{domain}.com']/@proxyName" \
-        -v "$fqdn_value" /opt/atlassian-jira-software-standalone/conf/server.xml
+        -v "$FQDN" /opt/atlassian-jira-software-standalone/conf/server.xml
     xmlstarlet ed -L -u "/jira-database-config/jdbc-datasource/username" \
-        -v "$db_username_value" /app/dbconfig.xml
+        -v "$DB_USERNAME" /app/dbconfig.xml
     xmlstarlet ed -L -u "/jira-database-config/jdbc-datasource/password" \
-        -v "$db_username_value" /app/dbconfig.xml
+        -v "$DB_PASSWORD" /app/dbconfig.xml
 
     install -ojira -gjira -m660 /app/dbconfig.xml /var/jira/dbconfig.xml
     /opt/atlassian-jira-software-standalone/bin/setenv.sh run
