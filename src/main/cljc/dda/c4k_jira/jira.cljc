@@ -7,6 +7,7 @@
 
 (s/def ::fqdn cm/fqdn-string?)
 (s/def ::issuer cm/letsencrypt-issuer?)
+(s/def ::restic-repository string?)
 (s/def ::jira-data-volume-path string?)
 
 #?(:cljs

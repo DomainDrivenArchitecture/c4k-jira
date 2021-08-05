@@ -3,12 +3,13 @@
    [clojure.tools.reader.edn :as edn]
    [dda.c4k-jira.core :as core]
    [dda.c4k-jira.jira :as jira]
-   [dda.c4k-common.browser :as br]))
+   [dda.c4k-common.browser :as br]
+   [dda.c4k-common.postgres :as pgc]))
 
 (defn config-from-document []
-  (let [jira-data-volume-path (br/get-content-from-element "jira-data-volume-path" :optional true :deserializer keyword)
-        postgres-data-volume-path (br/get-content-from-element "postgres-data-volume-path" :optional true :deserializer keyword)
-        restic-repository (br/get-content-from-element "restic-repository" :optional true :deserializer keyword)
+  (let [jira-data-volume-path (br/get-content-from-element "jira-data-volume-path" :optional true)
+        postgres-data-volume-path (br/get-content-from-element "postgres-data-volume-path" :optional true)
+        restic-repository (br/get-content-from-element "restic-repository" :optional true)
         issuer (br/get-content-from-element "issuer" :optional true :deserializer keyword)]
     (merge
      {:fqdn (br/get-content-from-element "fqdn")}
@@ -24,9 +25,9 @@
 
 (defn validate-all! []
   (br/validate! "fqdn" ::jira/fqdn)
-  (br/validate! "jira-data-volume-path" ::jira/jira-data-volume-path :optional true :deserializer keyword)
-  (br/validate! "postgres-data-volume-path" ::jira/jira-data-volume-path :optional true :deserializer keyword)
-  (br/validate! "restic-repository" ::jira/restic-repository :optional true :deserializer keyword)
+  (br/validate! "jira-data-volume-path" ::jira/jira-data-volume-path :optional true)
+  (br/validate! "postgres-data-volume-path" ::pgc/postgres-data-volume-path :optional true)
+  (br/validate! "restic-repository" ::jira/restic-repository :optional true)
   (br/validate! "issuer" ::jira/issuer :optional true :deserializer keyword)
   (br/validate! "auth" core/auth? :deserializer edn/read-string)
   (br/set-validated!))
