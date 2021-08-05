@@ -12,6 +12,8 @@
         issuer (br/get-content-from-element "issuer" :optional true :deserializer keyword)]
     (merge
      {:fqdn (br/get-content-from-element "fqdn")}
+     (when (some? jira-data-volume-path)
+       {:jira-data-volume-path jira-data-volume-path})
      (when (some? postgres-data-volume-path)
        {:postgres-data-volume-path postgres-data-volume-path})
      (when (some? restic-repository)
