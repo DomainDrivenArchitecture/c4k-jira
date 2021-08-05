@@ -17,6 +17,20 @@ The package aims to a low load sceanrio.
 
 This is under development.
 
+## Try out
+
+Click on the image to try out live in your browser:
+
+[![Try it out](/doc/tryItOut.png "Try out yourself")](https://domaindrivenarchitecture.org/pages/dda-provision/c4k-jira/)
+
+Your input will stay in your browser. No server interaction is required.
+
+You will also be able to try out on cli:
+```
+target/graalvm/c4k-jira src/test/resources/valid-config.edn src/test/resources/valid-auth.edn | kubeval -
+target/graalvm/c4k-jira src/test/resources/valid-config.edn src/test/resources/valid-auth.edn | kubectl apply -f -
+```
+
 ## Manual restore
 
 1) Scale Jira deployment down:
