@@ -21,7 +21,7 @@ This is under development.
 
 Click on the image to try out live in your browser:
 
-[![Try it out](/doc/tryItOut.png "Try out yourself")](https://domaindrivenarchitecture.org/pages/dda-provision/c4k-jira/)
+[![Try it out](doc/tryItOut.png "Try out yourself")](https://domaindrivenarchitecture.org/pages/dda-provision/c4k-jira/)
 
 Your input will stay in your browser. No server interaction is required.
 
