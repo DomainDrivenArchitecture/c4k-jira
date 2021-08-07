@@ -36,7 +36,7 @@ target/graalvm/c4k-jira src/test/resources/valid-config.edn src/test/resources/v
 1) Scale Jira deployment down:
 kubectl scale deployment jira --replicas=0
 
-2)apply backup and restore pod:
+2) apply backup and restore pod:
 kubectl apply -f src/main/resources/backup/backup-restore.yaml
 
 3) exec into pod and execute restore pod
