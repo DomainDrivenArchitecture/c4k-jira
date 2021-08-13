@@ -5,7 +5,7 @@
    [dda.c4k-jira.jira :as cut]))
 
 (deftest should-generate-certificate
-  (is (= {:apiVersion "cert-manager.io/v1alpha2"
+  (is (= {:apiVersion "cert-manager.io/v1"
           :kind "Certificate"
           :metadata {:name "jira-cert", :namespace "default"}
           :spec
@@ -17,7 +17,7 @@
          (cut/generate-certificate {:fqdn "xx" :issuer :prod}))))
 
 (deftest should-generate-ingress
-  (is (= {:apiVersion "extensions/v1beta1"
+  (is (= {:apiVersion "networking.k8s.io/v1"
           :kind "Ingress"
           :metadata
           {:name "ingress-jira"
@@ -38,8 +38,11 @@
              :http
              {:paths
               [{:path "/"
+                :pathType "Prefix"
                 :backend
-                {:serviceName "jira-service", :servicePort 8080}}]}}]}}
+                {:service
+                 {:name "jira-service",
+                  :port {:number 8080}}}}]}}]}}
          (cut/generate-ingress {:fqdn "xx"}))))
 
 (deftest should-generate-persistent-volume
