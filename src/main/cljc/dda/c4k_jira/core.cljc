@@ -85,6 +85,10 @@
    :tag :button
    :content [label]})
 
+(defn generate-br
+  []
+  {:type :element, :attrs nil, :tag :br, :content nil})
+
 (defn generate-output
   [id
    label
@@ -98,7 +102,6 @@
   []
   {:type :element, :attrs {:class :needs-validation, :id :form}, :tag :form, :content []})
 
-; TODO: add br tags
 (defn generate-content
   []
   (conj
@@ -107,15 +110,22 @@
                  (generate-input-field "jira-data-volume-path" "(Optional) Your jira-data-volume-path:" "/var/jira")
                  (generate-input-field "postgres-data-volume-path" "(Optional) Your postgres-data-volume-path:" "/var/postgres")
                  (generate-input-field "restic-repository" "(Optional) Your restic-repository:" "restic-repository")
+                 (generate-br)
                  (generate-input-field "issuer" "(Optional) Your issuer prod/staging:" "")
+                 (generate-br)
+                 (generate-br)
                  (generate-text-area "auth" "Your auth.edn:" "{:postgres-db-user \" jira \"
          :postgres-db-password \" jira-db-password \"
          :aws-access-key-id \" aws-id \"
          :aws-secret-access-key \" aws-secret \"
          :restic-password \" restic-password \"}"
                                      5)
+                 (generate-br)
+                 (generate-br)
                  (generate-button "generate-button" "Generate c4k yaml")))]
-   [(generate-output "c4k-keycloak-output" "Your c4k deployment.yaml:" 25)]))
+   [(generate-br)
+    (generate-br)
+    (generate-output "c4k-keycloak-output" "Your c4k deployment.yaml:" 25)]))
 
 (defn find-map
   [coll]
