@@ -9,9 +9,8 @@
   [dda.c4k-jira.jira :as jira]
   [dda.c4k-jira.backup :as backup]
   [clojure.walk :refer [postwalk]]
-  [clojure.zip :as zip]
   [hickory.core :as hc]
-  [hickory.zip :as hz]))
+  [hickory.render :as hr]))
 
 (def config-defaults {:issuer :staging})
 
@@ -53,87 +52,89 @@
 
 (defn generate-feedback-tag
   [id]
-  {:type :element :attrs {:class "invalid-feedback"} :tag :div :content [{:type :element :attrs {:id (str id "-validation")} :tag :pre :content "nil"}]})
+  [{:type :element :attrs {:class "invalid-feedback"} :tag :div :content [{:type :element :attrs {:id (str id "-validation")} :tag :pre :content nil}]}])
 
 (defn generate-label
   [id-for
    label]
-  {:type :element :attrs {:for id-for :class "form-label"} :tag :label :content [label]})
+  [{:type :element :attrs {:for id-for :class "form-label"} :tag :label :content [label]}])
 
 (defn generate-input-field
   [id
    label
    default-value]
-  [(generate-label id label)
-   {:type :element :attrs {:class "form-control" :type "text" :name id :value default-value} :tag :input :content "nil"}
-   (generate-feedback-tag id)])
+  (concat (generate-label id label)
+          [{:type :element :attrs {:class "form-control" :type "text" :name id :value default-value} :tag :input :content nil}]
+          (generate-feedback-tag id)))
 
 (defn generate-text-area
   [id
    label
    default-value
    rows]
-  [(generate-label id label)
-   {:type :element :attrs {:name id :id id :class "form-control" :rows rows} :tag :textarea :content default-value}
-   (generate-feedback-tag id)])
+  (concat (generate-label id label)
+          [{:type :element :attrs {:name id :id id :class "form-control" :rows rows} :tag :textarea :content [default-value]}]
+          (generate-feedback-tag id)))
 
 (defn generate-button
   [id
    label]
-  {:type :element
-   :attrs {:type "button", :id id, :class "btn btn-primary"}
-   :tag :button
-   :content [label]})
+  [{:type :element
+    :attrs {:type "button", :id id, :class "btn btn-primary"}
+    :tag :button
+    :content [label]}])
 
 (defn generate-br
   []
-  {:type :element, :attrs nil, :tag :br, :content nil})
+  [{:type :element, :attrs nil, :tag :br, :content nil}])
 
 (defn generate-output
   [id
    label
    rows]
-  {:type :element, :attrs {:id id}, :tag :div, :content [
-       {:type :element, :attrs {:for "output", :class "form-label"}, :tag :label, :content [label]} 
-       {:type :element, :attrs {:name "output", :id "output", :class "form-control", :rows rows}, :tag :textarea, :content []} 
-    ]})
+  [{:type :element, :attrs {:id id}, :tag :div, :content [{:type :element, :attrs {:for "output", :class "form-label"}, :tag :label, :content [label]}
+                                                          {:type :element, :attrs {:name "output", :id "output", :class "form-control", :rows rows}, :tag :textarea, :content []}]}])
 
 (defn generate-needs-validation
   []
-  {:type :element, :attrs {:class :needs-validation, :id :form}, :tag :form, :content []})
+  {:type :element, :attrs {:class "needs-validation", :id "form"}, :tag :form, :content []})
 
 (defn generate-content
   []
-  (conj
-   [(assoc (generate-needs-validation) :content
-           (conj (generate-input-field "fqdn" "Your fqdn:" "jira-neu.prod.meissa-gmbh.de")
-                 (generate-input-field "jira-data-volume-path" "(Optional) Your jira-data-volume-path:" "/var/jira")
-                 (generate-input-field "postgres-data-volume-path" "(Optional) Your postgres-data-volume-path:" "/var/postgres")
-                 (generate-input-field "restic-repository" "(Optional) Your restic-repository:" "restic-repository")
-                 (generate-br)
-                 (generate-input-field "issuer" "(Optional) Your issuer prod/staging:" "")
-                 (generate-br)
-                 (generate-br)
-                 (generate-text-area "auth" "Your auth.edn:" "{:postgres-db-user \" jira \"
+  (into [] (concat [(assoc (generate-needs-validation) :content
+                           (into [] (concat (generate-input-field "fqdn" "Your fqdn:" "jira-neu.prod.meissa-gmbh.de")
+                                            (generate-input-field "jira-data-volume-path" "(Optional) Your jira-data-volume-path:" "/var/jira")
+                                            (generate-input-field "postgres-data-volume-path" "(Optional) Your postgres-data-volume-path:" "/var/postgres")
+                                            (generate-input-field "restic-repository" "(Optional) Your restic-repository:" "restic-repository")
+                                            (generate-br)
+                                            (generate-input-field "issuer" "(Optional) Your issuer prod/staging:" "")
+                                            (generate-br)
+                                            (generate-br)
+                                            (generate-text-area "auth" "Your auth.edn:" "{:postgres-db-user \" jira \"
          :postgres-db-password \" jira-db-password \"
          :aws-access-key-id \" aws-id \"
          :aws-secret-access-key \" aws-secret \"
          :restic-password \" restic-password \"}"
-                                     5)
-                 (generate-br)
-                 (generate-br)
-                 (generate-button "generate-button" "Generate c4k yaml")))]
-   [(generate-br)
-    (generate-br)
-    (generate-output "c4k-keycloak-output" "Your c4k deployment.yaml:" 25)]))
+                                                                "5")
+                                            (generate-br)
+                                            (generate-br)
+                                            (generate-button "generate-button" "Generate c4k yaml"))))]
+                   (generate-br)
+                   (generate-br)
+                   (generate-output "c4k-keycloak-output" "Your c4k deployment.yaml:" "25"))))
 
 (defn find-map
   [coll]
   (postwalk #(if (and (map? %)
                       (= (:class (:attrs %)) "container jumbotron"))
-               (assoc coll :content (generate-content))
+               {:type :element
+                :attrs {:class "container jumbotron"}
+                :tag :div
+                :content (generate-content)}
                %)
             coll))
+
+(def htest2 (hr/hickory-to-html (find-map htest)))
 
 ; END REFACTOR
 
