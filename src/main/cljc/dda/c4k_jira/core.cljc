@@ -77,6 +77,14 @@
    {:type :element :attrs {:name id :id id :class "form-control" :rows rows} :tag :textarea :content default-value}
    (generate-feedback-tag id)])
 
+(defn generate-button
+  [id
+   label]
+  {:type :element
+   :attrs {:type "button", :id id, :class "btn btn-primary"}
+   :tag :button
+   :content [label]})
+
 (defn generate-output
   [id
    label
@@ -91,7 +99,6 @@
   {:type :element, :attrs {:class :needs-validation, :id :form}, :tag :form, :content []})
 
 ; TODO: add br tags
-; TODO: add generate button
 (defn generate-content
   []
   (conj
@@ -106,16 +113,17 @@
          :aws-access-key-id \" aws-id \"
          :aws-secret-access-key \" aws-secret \"
          :restic-password \" restic-password \"}"
-                                     5)))]
+                                     5)
+                 (generate-button "generate-button" "Generate c4k yaml")))]
    [(generate-output "c4k-keycloak-output" "Your c4k deployment.yaml:" 25)]))
 
 (defn find-map
-  [zipper]
+  [coll]
   (postwalk #(if (and (map? %)
                       (= (:class (:attrs %)) "container jumbotron"))
-    ;replace instead of print later
-               (assoc zipper :content (generate-content))
-               %) zipper))
+               (assoc coll :content (generate-content))
+               %)
+            coll))
 
 ; END REFACTOR
 
