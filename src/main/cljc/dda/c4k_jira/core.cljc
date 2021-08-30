@@ -8,6 +8,7 @@
   [dda.c4k-common.postgres :as postgres]
   [dda.c4k-jira.jira :as jira]
   [dda.c4k-jira.backup :as backup]
+  [clojure.walk :refer [postwalk]]
   [clojure.zip :as zip]
   [hickory.core :as hc]
   [hickory.zip :as hz]))
@@ -48,7 +49,7 @@
 ; START OF HTML EDIT REFACTOR
 ; TODO: Move this to somewhere in commons
 
-(def htest (hz/hickory-zip (hc/as-hickory (hc/parse (clojure.core/slurp "public/index.html")))))
+(def htest (hc/as-hickory (hc/parse (clojure.core/slurp "public/index.html"))))
 
 (defn generate-feedback-tag
   [id]
@@ -91,33 +92,30 @@
 
 ; TODO: add br tags
 ; TODO: add generate button
-; TODO: add output text-area
 (defn generate-content
   []
   (conj
-   (assoc (generate-needs-validation) :content
-          (conj (generate-input-field "fqdn" "Your fqdn:" "jira-neu.prod.meissa-gmbh.de")
-                (generate-input-field "jira-data-volume-path" "(Optional) Your jira-data-volume-path:" "/var/jira")
-                (generate-input-field "postgres-data-volume-path" "(Optional) Your postgres-data-volume-path:" "/var/postgres")
-                (generate-input-field "restic-repository" "(Optional) Your restic-repository:" "restic-repository")
-                (generate-input-field "issuer" "(Optional) Your issuer prod/staging:" "")
-                (generate-text-area "auth" "Your auth.edn:" "{:postgres-db-user \" jira \"
+   [(assoc (generate-needs-validation) :content
+           (conj (generate-input-field "fqdn" "Your fqdn:" "jira-neu.prod.meissa-gmbh.de")
+                 (generate-input-field "jira-data-volume-path" "(Optional) Your jira-data-volume-path:" "/var/jira")
+                 (generate-input-field "postgres-data-volume-path" "(Optional) Your postgres-data-volume-path:" "/var/postgres")
+                 (generate-input-field "restic-repository" "(Optional) Your restic-repository:" "restic-repository")
+                 (generate-input-field "issuer" "(Optional) Your issuer prod/staging:" "")
+                 (generate-text-area "auth" "Your auth.edn:" "{:postgres-db-user \" jira \"
          :postgres-db-password \" jira-db-password \"
          :aws-access-key-id \" aws-id \"
          :aws-secret-access-key \" aws-secret \"
          :restic-password \" restic-password \"}"
-                                    5)))
-   (generate-output "c4k-keycloak-output" "Your c4k deployment.yaml:" 25)))
+                                     5)))]
+   [(generate-output "c4k-keycloak-output" "Your c4k deployment.yaml:" 25)]))
 
 (defn find-map
   [zipper]
-  (if (not (zip/end? zipper))
-    (find-map (zip/next zipper))
-    (zip/node zipper))
-  (if (and (map? (zip/node zipper))
-           (= (:class (:attrs (zip/node zipper))) "container jumbotron"))
+  (postwalk #(if (and (map? %)
+                      (= (:class (:attrs %)) "container jumbotron"))
     ;replace instead of print later
-    (assoc (zip/node zipper) :content (generate-content))))
+               (assoc zipper :content (generate-content))
+               %) zipper))
 
 ; END REFACTOR
 
