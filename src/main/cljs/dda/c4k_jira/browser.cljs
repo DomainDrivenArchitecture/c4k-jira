@@ -6,6 +6,30 @@
    [dda.c4k-common.browser :as br]
    [dda.c4k-common.postgres :as pgc]))
 
+(defn generate-content
+  []
+  (into [] (concat [(assoc (generate-needs-validation) :content
+                           (into [] (concat (generate-input-field "fqdn" "Your fqdn:" "jira-neu.prod.meissa-gmbh.de")
+                                            (generate-input-field "jira-data-volume-path" "(Optional) Your jira-data-volume-path:" "/var/jira")
+                                            (generate-input-field "postgres-data-volume-path" "(Optional) Your postgres-data-volume-path:" "/var/postgres")
+                                            (generate-input-field "restic-repository" "(Optional) Your restic-repository:" "restic-repository")
+                                            (generate-br)
+                                            (generate-input-field "issuer" "(Optional) Your issuer prod/staging:" "")
+                                            (generate-br)
+                                            (generate-br)
+                                            (generate-text-area "auth" "Your auth.edn:" "{:postgres-db-user \" jira \"
+         :postgres-db-password \" jira-db-password \"
+         :aws-access-key-id \" aws-id \"
+         :aws-secret-access-key \" aws-secret \"
+         :restic-password \" restic-password \"}"
+                                                                "5")
+                                            (generate-br)
+                                            (generate-br)
+                                            (generate-button "generate-button" "Generate c4k yaml"))))]
+                   (generate-br)
+                   (generate-br)
+                   (generate-output "c4k-keycloak-output" "Your c4k deployment.yaml:" "25"))))
+
 (defn config-from-document []
   (let [jira-data-volume-path (br/get-content-from-element "jira-data-volume-path" :optional true)
         postgres-data-volume-path (br/get-content-from-element "postgres-data-volume-path" :optional true)
@@ -32,6 +56,10 @@
   (br/validate! "auth" core/auth? :deserializer edn/read-string)
   (br/set-validated!))
 
+(defn add-validate-listener [name]
+  (-> (br/get-element-by-id name)
+      (.addEventListener "blur" #(do (validate-all!)))))
+
 (defn init []
   (-> js/document
       (.getElementById "generate-button")
@@ -41,22 +69,9 @@
                                    (config-from-document) 
                                    (br/get-content-from-element "auth" :deserializer edn/read-string))
                                   (br/set-output!)))))
-  (-> (br/get-element-by-id "fqdn")
-      (.addEventListener "blur"
-                         #(do (validate-all!))))
-  (-> (br/get-element-by-id "jira-data-volume-path")
-      (.addEventListener "blur"
-                         #(do (validate-all!))))
-  (-> (br/get-element-by-id "postgres-data-volume-path")
-      (.addEventListener "blur"
-                         #(do (validate-all!))))
-  (-> (br/get-element-by-id "restic-repository")
-      (.addEventListener "blur"
-                         #(do (validate-all!))))
-  (-> (br/get-element-by-id "issuer")
-      (.addEventListener "blur"
-                         #(do (validate-all!))))
-  (-> (br/get-element-by-id "auth")
-      (.addEventListener "blur"
-                         #(do (validate-all!))))
-  )
+  (add-validate-listener "fqdn")
+  (add-validate-listener "jira-data-volume-path")
+  (add-validate-listener "postgres-data-volume-path")
+  (add-validate-listener "restic-repository")
+  (add-validate-listener "issuer")
+  (add-validate-listener "auth"))
