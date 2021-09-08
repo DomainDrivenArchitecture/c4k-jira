@@ -269,5 +269,26 @@
          x="137.20535"
          y="180.77232"
          style="stroke-width:0.26458332">restic - backup</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:6.3499999px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="206.375"
+       y="180.58334"
+       id="text3954"><tspan
+         sodipodi:role="line"
+         id="tspan3952"
+         x="206.375"
+         y="180.58334"
+         style="stroke-width:0.26458332">S3-Bucket</tspan><tspan
+         sodipodi:role="line"
+         x="206.375"
+         y="188.52084"
+         style="stroke-width:0.26458332"
+         id="tspan3956" /><tspan
+         sodipodi:role="line"
+         x="206.375"
+         y="196.45834"
+         style="stroke-width:0.26458332"
+         id="tspan3958">with folder /jira</tspan></text>
   </g>
 </svg>
