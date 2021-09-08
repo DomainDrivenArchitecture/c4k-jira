@@ -15,7 +15,7 @@ The package aims to a low load sceanrio.
 
 ## Status
 
-This is under development.
+Stable - we use this setup on production.
 
 ## Try out
 
@@ -31,22 +31,10 @@ target/graalvm/c4k-jira src/test/resources/valid-config.edn src/test/resources/v
 target/graalvm/c4k-jira src/test/resources/valid-config.edn src/test/resources/valid-auth.edn | kubectl apply -f -
 ```
 
-## Manual restore
+## Documentation
+* [Example Setup on Hetzner](doc/SetupOnHetzner.md)
+* [Backup and Restore](doc/BackupAndResotre.md)
 
-1) Scale Jira deployment down:
-kubectl scale deployment jira --replicas=0
-
-2) apply backup and restore pod:
-kubectl apply -f src/main/resources/backup/backup-restore.yaml
-
-3) exec into pod and execute restore pod
-kubectl exec -it backup-restore -- /usr/local/bin/restore.sh
-
-4) Scale Jira deployment up:
-kubectl scale deployment jira --replicas=1
-
-5) Update index of Jira:
-Jira > Settings > System > Advanced > Indexing
 ## License
 
 Copyright © 2021 meissa GmbH

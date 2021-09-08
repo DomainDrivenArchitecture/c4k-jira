@@ -1,4 +1,4 @@
 {:fqdn "jira-neu.test.meissa-gmbh.de"
  :jira-data-volume-path "/var/jira"
  :postgres-data-volume-path "/var/postgres"
- :restic-repository ""}
+ :restic-repository "s3:s3.amazonaws.com/your-bucket/your-folder"}
