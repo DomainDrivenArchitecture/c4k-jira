@@ -22,7 +22,7 @@
 (defn k8s-objects [config]
   (into
    []
-   (concat [(yaml/to-string (postgres/generate-config))
+   (concat [(yaml/to-string (postgres/generate-config :postgres-size :2gb))
             (yaml/to-string (postgres/generate-secret config))]
            (when (contains? config :postgres-data-volume-path)
              [(yaml/to-string (postgres/generate-persistent-volume config))])

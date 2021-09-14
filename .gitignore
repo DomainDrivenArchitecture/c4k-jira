@@ -21,8 +21,5 @@ public/js/
 *.iml
 .idea/
 
-#valid-auth.edn
-#valid-config.edn
-my-auth.edn
 auth.edn
 config.edn
