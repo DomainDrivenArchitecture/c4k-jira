@@ -13,22 +13,30 @@
                                             (br/generate-input-field "jira-data-volume-path" "(Optional) Your jira-data-volume-path:" "/var/jira")
                                             (br/generate-input-field "postgres-data-volume-path" "(Optional) Your postgres-data-volume-path:" "/var/postgres")
                                             (br/generate-input-field "restic-repository" "(Optional) Your restic-repository:" "restic-repository")
-                                            (br/generate-br)
+                                            [(br/generate-br)]
                                             (br/generate-input-field "issuer" "(Optional) Your issuer prod/staging:" "")
-                                            (br/generate-br)
-                                            (br/generate-br)
+                                            [(br/generate-br)]
+                                            [(br/generate-br)]
                                             (br/generate-text-area "auth" "Your auth.edn:" "{:postgres-db-user \" jira \"
          :postgres-db-password \" jira-db-password \"
          :aws-access-key-id \" aws-id \"
          :aws-secret-access-key \" aws-secret \"
          :restic-password \" restic-password \"}"
-                                                                "5")
-                                            (br/generate-br)
-                                            (br/generate-br)
-                                            (br/generate-button "generate-button" "Generate c4k yaml"))))]
-                   (br/generate-br)
-                   (br/generate-br)
-                   (br/generate-output "c4k-keycloak-output" "Your c4k deployment.yaml:" "25"))))
+                                                                   "5")
+                                            [(br/generate-br)]
+                                            [(br/generate-br)]
+                                            [(br/generate-button "generate-button" "Generate c4k yaml")])))]
+                   [(br/generate-br)
+                    (br/generate-br)
+                    (br/generate-output "c4k-keycloak-output" "Your c4k deployment.yaml:" "25")])))
+
+(defn generate-final
+  []
+  {:type :element
+   :attrs {:class "container jumbotron"}
+   :tag :div
+   :content
+   (generate-content)})
 
 (defn config-from-document []
   (let [jira-data-volume-path (br/get-content-from-element "jira-data-volume-path" :optional true)
@@ -61,6 +69,7 @@
       (.addEventListener "blur" #(do (validate-all!)))))
 
 (defn init []
+  (br/replace-element-content "container jumbotron" (generate-final))
   (-> js/document
       (.getElementById "generate-button")
       (.addEventListener "click"
