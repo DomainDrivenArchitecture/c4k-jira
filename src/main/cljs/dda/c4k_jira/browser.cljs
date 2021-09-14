@@ -69,7 +69,7 @@
       (.addEventListener "blur" #(do (validate-all!)))))
 
 (defn init []
-  (br/replace-element-content "container jumbotron" (generate-final))
+  (br/replace-element-content "app" (generate-final))
   (-> js/document
       (.getElementById "generate-button")
       (.addEventListener "click"
