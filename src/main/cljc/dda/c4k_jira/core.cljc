@@ -35,8 +35,7 @@
             (yaml/to-string (jira/generate-deployment config))
             (yaml/to-string (jira/generate-service))
             (yaml/to-string (jira/generate-certificate config))
-            (yaml/to-string (jira/generate-ingress config))
-            (yaml/to-string (jira/generate-service))]
+            (yaml/to-string (jira/generate-ingress config))]
            (when (contains? config :restic-repository)
              [(yaml/to-string (backup/generate-config config))
               (yaml/to-string (backup/generate-secret config))
