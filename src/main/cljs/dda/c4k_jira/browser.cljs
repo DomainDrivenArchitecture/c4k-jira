@@ -9,28 +9,23 @@
 (defn generate-content
   []
   (into [] (concat [(assoc (br/generate-needs-validation) :content
-                           (into [] (concat (br/generate-input-field "fqdn" "Your fqdn:" "jira-neu.prod.meissa-gmbh.de")
-                                            (br/generate-input-field "jira-data-volume-path" "(Optional) Your jira-data-volume-path:" "/var/jira")
-                                            (br/generate-input-field "postgres-data-volume-path" "(Optional) Your postgres-data-volume-path:" "/var/postgres")
-                                            (br/generate-input-field "restic-repository" "(Optional) Your restic-repository:" "restic-repository")
-                                            [(br/generate-br)]
-                                            (br/generate-input-field "issuer" "(Optional) Your issuer prod/staging:" "")
-                                            [(br/generate-br)]
+                           (into [] (concat (br/generate-input-field "fqdn" "Your fqdn:" "jira-neu.prod.meissa-gmbh.de" "dda.c4k_jira.browser")
+                                            (br/generate-input-field "jira-data-volume-path" "(Optional) Your jira-data-volume-path:" "/var/jira" "dda.c4k_jira.browser")
+                                            (br/generate-input-field "postgres-data-volume-path" "(Optional) Your postgres-data-volume-path:" "/var/postgres" "dda.c4k_jira.browser")
+                                            (br/generate-input-field "restic-repository" "(Optional) Your restic-repository:" "restic-repository" "dda.c4k_jira.browser")
+                                            (br/generate-input-field "issuer" "(Optional) Your issuer prod/staging:" "" "dda.c4k_jira.browser")
                                             [(br/generate-br)]
                                             (br/generate-text-area "auth" "Your auth.edn:" "{:postgres-db-user \" jira \"
          :postgres-db-password \" jira-db-password \"
          :aws-access-key-id \" aws-id \"
          :aws-secret-access-key \" aws-secret \"
          :restic-password \" restic-password \"}"
-                                                                   "5")
+                                                                   "5" "dda.c4k_jira.browser")
                                             [(br/generate-br)]
-                                            [(br/generate-br)]
-                                            [(br/generate-button "generate-button" "Generate c4k yaml")])))]
-                   [(br/generate-br)
-                    (br/generate-br)
-                    (br/generate-output "c4k-keycloak-output" "Your c4k deployment.yaml:" "25")])))
+                                            (br/generate-button "generate-button" "Generate c4k yaml"))))]
+                   (br/generate-output "c4k-keycloak-output" "Your c4k deployment.yaml:" "25"))))
 
-(defn generate-final
+(defn generate-container-jumbotron
   []
   {:type :element
    :attrs {:class "container jumbotron"}
@@ -69,7 +64,7 @@
       (.addEventListener "blur" #(do (validate-all!)))))
 
 (defn init []
-  (br/replace-element-content "app" (generate-final))
+  (br/replace-element-content "app" (generate-container-jumbotron))
   (-> js/document
       (.getElementById "generate-button")
       (.addEventListener "click"
@@ -77,10 +72,4 @@
                               (-> (core/generate 
                                    (config-from-document) 
                                    (br/get-content-from-element "auth" :deserializer edn/read-string))
-                                  (br/set-output!)))))
-  (add-validate-listener "fqdn")
-  (add-validate-listener "jira-data-volume-path")
-  (add-validate-listener "postgres-data-volume-path")
-  (add-validate-listener "restic-repository")
-  (add-validate-listener "issuer")
-  (add-validate-listener "auth"))
+                                  (br/set-output!))))))
