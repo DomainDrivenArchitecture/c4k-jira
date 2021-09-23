@@ -59,10 +59,6 @@
   (br/validate! "auth" core/auth? :deserializer edn/read-string)
   (br/set-validated!))
 
-(defn add-validate-listener [name]
-  (-> (br/get-element-by-id name)
-      (.addEventListener "blur" #(do (validate-all!)))))
-
 (defn init []
   (br/replace-element-content "app" (generate-container-jumbotron))
   (-> js/document
