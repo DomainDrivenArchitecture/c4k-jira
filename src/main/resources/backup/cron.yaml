@@ -18,27 +18,6 @@ spec:
             imagePullPolicy: IfNotPresent
             command: ["/entrypoint.sh"]
             env:
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secret
-                  key: postgres-user
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secret
-                  key: postgres-password
-            - name: POSTGRES_DB
-              valueFrom:
-                configMapKeyRef:
-                  name: postgres-config
-                  key: postgres-db
-            - name: POSTGRES_HOST
-              value: "postgresql-service:5432"
-            - name: POSTGRES_SERVICE
-              value: "postgresql-service"
-            - name: POSTGRES_PORT
-              value: "5432"
             - name: AWS_DEFAULT_REGION
               value: eu-central-1
             - name: AWS_ACCESS_KEY_ID_FILE
