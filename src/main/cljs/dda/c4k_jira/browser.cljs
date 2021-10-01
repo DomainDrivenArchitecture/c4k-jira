@@ -15,11 +15,11 @@
                                             (br/generate-input-field "restic-repository" "(Optional) Your restic-repository:" "restic-repository" "dda.c4k_jira.browser")
                                             (br/generate-input-field "issuer" "(Optional) Your issuer prod/staging:" "" "dda.c4k_jira.browser")
                                             [(br/generate-br)]
-                                            (br/generate-text-area "auth" "Your auth.edn:" "{:postgres-db-user \" jira \"
-         :postgres-db-password \" jira-db-password \"
-         :aws-access-key-id \" aws-id \"
-         :aws-secret-access-key \" aws-secret \"
-         :restic-password \" restic-password \"}"
+                                            (br/generate-text-area "auth" "Your auth.edn:" "{:postgres-db-user \"jira\"
+         :postgres-db-password \"jira-db-password\"
+         :aws-access-key-id \"aws-id\"
+         :aws-secret-access-key \"aws-secret\"
+         :restic-password \"restic-password\"}"
                                                                    "5" "dda.c4k_jira.browser")
                                             [(br/generate-br)]
                                             (br/generate-button "generate-button" "Generate c4k yaml"))))]
