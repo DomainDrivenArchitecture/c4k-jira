@@ -10,40 +10,40 @@
 ## Manual init the restic repository for the first time
 
 1. apply backup-and-restore pod:   
-   `kubectl apply -f src/main/resources/backup/backup-restore.yaml`
-1. exec into pod and execute restore pod   
-   `kubectl exec -it backup-restore -- /usr/local/bin/init.sh`
+   `kubectl scale deployment backup-restore --replicas=1`
+1. exec into pod and execute restore pod (press tab to get your exact pod name)   
+   `kubectl exec -it backup-restore-... -- /usr/local/bin/init.sh`
 1. remove backup-and-restore pod:   
-   `kubectl delete pod backup-restore
+   `kubectl scale deployment backup-restore --replicas=0`
 
 
 ## Manual backup the restic repository for the first time
 
 1.Create a jira export:    
   Jira > Settings > System -> Backup system
-1. Choose a filename `backup-filename.xml`. Your file will be stored to `/var/backup/export`.
+1. Choose a filename `backup-filename.zip`. Your file will be stored to `/var/backup/export`.
 1. apply backup-and-restore pod:   
-  `kubectl apply -f src/main/resources/backup/backup-restore.yaml`
-1. exec into pod and execute restore pod   
-   `kubectl exec -it backup-restore -- /usr/local/bin/backup.sh`
+  `kubectl scale deployment backup-restore --replicas=1`
+1. exec into pod and execute restore pod (press tab to get your exact pod name)   
+   `kubectl exec -it backup-restore-... -- /usr/local/bin/backup.sh`
 1. remove backup-and-restore pod:   
-   `kubectl delete pod backup-restore`
+   `kubectl scale deployment backup-restore --replicas=0`
 
 
 ## Manual restore
 
 1. apply backup-and-restore pod:   
-  `kubectl apply -f src/main/resources/backup/backup-restore.yaml`
-1. exec into pod and execute restore pod   
-   `kubectl exec -it backup-restore -- /usr/local/bin/restore.sh`
+  `kubectl scale deployment backup-restore --replicas=1`
+1. exec into pod and execute restore pod (press tab to get your exact pod name)   
+   `kubectl exec -it backup-restore-... -- /usr/local/bin/restore.sh`
 1. In case of already set up server:
    1. Import one of Jira exportet backups:   
       Jira > Settings > System > Restore System
-   1. Choose one of your bakcuped files located at `/var/jira/restic-restore/export/`.   
-      E.g. `/var/jira/restic-restore/export/backup-filename.xml`.
+   1. Choose one of your backuped files located at `/var/jira/import/`.   
+      E.g. `backup-filename.zip`.
 1. In case of installation wizzard:
    1. Choose restore from backup
-   1. Choose one of your bakcuped files located at `/var/jira/restic-restore/export/`.   
-      E.g. `/var/jira/restic-restore/export/backup-filename.xml`
+   1. Choose one of your backuped files located at `/var/jira/import/`.   
+      E.g. `backup-filename.zip`
 1. remove backup-and-restore pod:   
-   `kubectl delete pod backup-restore`
+   `kubectl scale deployment backup-restore --replicas=0`

@@ -7,15 +7,12 @@ function main() {
     file_env AWS_ACCESS_KEY_ID
     file_env AWS_SECRET_ACCESS_KEY
 
-    # Restore latest snapshot into /var/backups/restic-restore
-    rm -rf /var/backups/restic-restore
-    restore-directory '/var/backups/restic-restore'
+    # Restore latest snapshot into /var/backups/restore
+    rm -rf /var/backups/restore
+    restore-directory '/var/backups/restore'
 
-    # Restore data dir backup
-    rm -rf /var/backups/data/*
-    cp -a /var/backups/restic-restore/data/* /var/backups/data
-
-    # /opt/atlassian-jira-software-standalone/bin/start-jira.sh
+    cp /var/backups/restore/export/*.zip /var/backups/import/
+    chown 901:901 /var/backups/import/*.zip
 }
 
 source /usr/local/lib/functions.sh

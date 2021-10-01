@@ -33,7 +33,7 @@ target/graalvm/c4k-jira src/test/resources/valid-config.edn src/test/resources/v
 
 ## Documentation
 * [Example Setup on Hetzner](doc/SetupOnHetzner.md)
-* [Backup and Restore](doc/BackupAndResotre.md)
+* [Backup and Restore](doc/BackupAndRestore.md)
 
 ## License
 
