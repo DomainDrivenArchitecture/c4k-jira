@@ -52,7 +52,7 @@ test-schema:
     paths:
       - target/uberjar
 
-.report-frontend:
+report-frontend:
   <<: *cljs
   stage: package
   script:
@@ -62,7 +62,7 @@ test-schema:
     paths:
       - target/frontend-build/build-report.html
 
-.package-frontend:
+package-frontend:
   <<: *cljs
   stage: package
   script:
