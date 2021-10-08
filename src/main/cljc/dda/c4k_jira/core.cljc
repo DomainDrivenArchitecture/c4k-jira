@@ -27,7 +27,7 @@
            (when (contains? config :postgres-data-volume-path)
              [(yaml/to-string (postgres/generate-persistent-volume config))])
            [(yaml/to-string (postgres/generate-pvc))
-            (yaml/to-string (postgres/generate-deployment))
+            (yaml/to-string (postgres/generate-deployment :postgres-image "postgres:14"))
             (yaml/to-string (postgres/generate-service))]
            (when (contains? config :jira-data-volume-path)
              [(yaml/to-string (jira/generate-persistent-volume config))])
