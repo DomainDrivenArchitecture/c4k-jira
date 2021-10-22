@@ -23,7 +23,7 @@
                                                                    "5")
                                             [(br/generate-br)]
                                             (br/generate-button "generate-button" "Generate c4k yaml"))))]
-                   (br/generate-output "c4k-keycloak-output" "Your c4k deployment.yaml:" "25"))))
+                   (br/generate-output "c4k-nextcloud-output" "Your c4k deployment.yaml:" "25"))))
 
 (defn generate-content-div
   []
