@@ -5,12 +5,12 @@
   [dda.c4k-common.yaml :as yaml]
   [dda.c4k-common.base64 :as b64]
   [dda.c4k-common.common :as cm]
-  [dda.c4k-common.prefixes :as pf]))
+  [dda.c4k-common.predicate :as pd]))
 
-(s/def ::aws-access-key-id pf/bash-env-string?)
-(s/def ::aws-secret-access-key pf/bash-env-string?)
-(s/def ::restic-password pf/bash-env-string?)
-(s/def ::restic-repository pf/bash-env-string?)
+(s/def ::aws-access-key-id pd/bash-env-string?)
+(s/def ::aws-secret-access-key pd/bash-env-string?)
+(s/def ::restic-password pd/bash-env-string?)
+(s/def ::restic-repository pd/bash-env-string?)
 
 #?(:cljs
    (defmethod yaml/load-resource :backup [resource-name]
