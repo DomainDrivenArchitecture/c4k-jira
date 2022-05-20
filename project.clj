@@ -1,11 +1,11 @@
-(defproject org.domaindrivenarchitecture/c4k-jira "1.0.7-SNAPSHOT"
+(defproject org.domaindrivenarchitecture/c4k-jira "1.1.0-SNAPSHOT"
   :description "jira c4k-installation package"
   :url "https://domaindrivenarchitecture.org"
   :license {:name "Apache License, Version 2.0"
             :url "https://www.apache.org/licenses/LICENSE-2.0.html"}
-  :dependencies [[org.clojure/clojure "1.10.3"]
+  :dependencies [[org.clojure/clojure "1.11.1"]
                  [org.clojure/tools.reader "1.3.6"]
-                 [org.domaindrivenarchitecture/c4k-common-clj "0.4.0"]
+                 [org.domaindrivenarchitecture/c4k-common-clj "2.0.3"]
                  [hickory "0.7.1"]]
   :target-path "target/%s/"
   :source-paths ["src/main/cljc"
