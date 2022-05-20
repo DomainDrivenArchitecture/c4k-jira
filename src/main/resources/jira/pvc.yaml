@@ -5,9 +5,9 @@ metadata:
   labels:
     app: jira
 spec:
-  storageClassName: manual
+  storageClassName: REPLACEME
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 30Gi
+      storage: REPLACEME

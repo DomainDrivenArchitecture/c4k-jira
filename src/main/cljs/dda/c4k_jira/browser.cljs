@@ -3,8 +3,7 @@
    [clojure.tools.reader.edn :as edn]
    [dda.c4k-jira.core :as core]
    [dda.c4k-jira.jira :as jira]
-   [dda.c4k-common.browser :as br]
-   [dda.c4k-common.postgres :as pgc]))
+   [dda.c4k-common.browser :as br]))
 
 (defn generate-content
   []
@@ -51,8 +50,6 @@
 
 (defn validate-all! []
   (br/validate! "fqdn" ::jira/fqdn)
-  (br/validate! "jira-data-volume-path" ::jira/jira-data-volume-path :optional true)
-  (br/validate! "postgres-data-volume-path" ::pgc/postgres-data-volume-path :optional true)
   (br/validate! "restic-repository" ::jira/restic-repository :optional true)
   (br/validate! "issuer" ::jira/issuer :optional true :deserializer keyword)
   (br/validate! "auth" core/auth? :deserializer edn/read-string)
@@ -74,8 +71,6 @@
                                    (br/get-content-from-element "auth" :deserializer edn/read-string))
                                   (br/set-output!)))))
   (add-validate-listener "fqdn")
-  (add-validate-listener "jira-data-volume-path")
-  (add-validate-listener "postgres-data-volume-path")
   (add-validate-listener "restic-repository")
   (add-validate-listener "issuer")
   (add-validate-listener "auth"))

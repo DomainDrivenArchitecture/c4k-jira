@@ -16,6 +16,16 @@
            {:name "letsencrypt-prod-issuer", :kind "ClusterIssuer"}}}
          (cut/generate-certificate {:fqdn "xx" :issuer :prod}))))
 
+(deftest should-generate-pvc
+  (is (= {:apiVersion "v1",
+          :kind "PersistentVolumeClaim",
+          :metadata {:name "jira-pvc", :labels {:app "jira"}},
+          :spec
+          {:storageClassName "manual",
+           :accessModes ["ReadWriteOnce"],
+           :resources {:requests {:storage "12Gi"}}}}
+         (cut/generate-pvc {:pv-storage-size-gb 12 :pvc-storage-class-name :manual}))))
+
 (deftest should-generate-ingress
   (is (= {:apiVersion "networking.k8s.io/v1"
           :kind "Ingress"
@@ -44,17 +54,6 @@
                  {:name "jira-service",
                   :port {:number 8080}}}}]}}]}}
          (cut/generate-ingress {:fqdn "xx"}))))
-
-(deftest should-generate-persistent-volume
-  (is (= {:kind "PersistentVolume"
-          :apiVersion "v1"
-          :metadata {:name "jira-pv-volume", :labels {:type "local"}}
-          :spec
-          {:storageClassName "manual"
-           :accessModes ["ReadWriteOnce"]
-           :capacity {:storage "30Gi"}
-           :hostPath {:path "xx"}}}
-         (cut/generate-persistent-volume {:jira-data-volume-path "xx"}))))
 
 (deftest should-generate-deployment
   (is (= {:containers
