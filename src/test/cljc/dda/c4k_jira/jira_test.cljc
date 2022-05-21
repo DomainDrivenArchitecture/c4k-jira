@@ -13,7 +13,7 @@
            :commonName "xx"
            :dnsNames ["xx"]
            :issuerRef
-           {:name "letsencrypt-prod-issuer", :kind "ClusterIssuer"}}}
+           {:name "prod", :kind "ClusterIssuer"}}}
          (cut/generate-certificate {:fqdn "xx" :issuer :prod}))))
 
 (deftest should-generate-pvc
@@ -33,7 +33,7 @@
           {:name "ingress-jira"
            :annotations
            {:cert-manager.io/cluster-issuer
-            "letsencrypt-staging-issuer"
+            "staging"
             :nginx.ingress.kubernetes.io/proxy-body-size "256m"
             :nginx.ingress.kubernetes.io/ssl-redirect "true"
             :nginx.ingress.kubernetes.io/rewrite-target "/"
