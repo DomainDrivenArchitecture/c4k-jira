@@ -1,4 +1,4 @@
-(defproject org.domaindrivenarchitecture/c4k-jira "1.1.3-SNAPSHOT"
+(defproject org.domaindrivenarchitecture/c4k-jira "1.1.3"
   :description "jira c4k-installation package"
   :url "https://domaindrivenarchitecture.org"
   :license {:name "Apache License, Version 2.0"
