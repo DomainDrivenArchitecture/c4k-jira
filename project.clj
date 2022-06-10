@@ -1,4 +1,4 @@
-(defproject org.domaindrivenarchitecture/c4k-jira "1.1.2-SNAPSHOT"
+(defproject org.domaindrivenarchitecture/c4k-jira "1.1.2"
   :description "jira c4k-installation package"
   :url "https://domaindrivenarchitecture.org"
   :license {:name "Apache License, Version 2.0"
@@ -30,7 +30,7 @@
                   ["vcs" "assert-committed"]
                   ["change" "version" "leiningen.release/bump-version" "release"]
                   ["vcs" "commit"]
-                  ["vcs" "tag"]
+                  ["vcs" "tag" "v" "--no-sign"]
                   ["change" "version" "leiningen.release/bump-version"]]
   :aliases {"native" ["shell"
                       "native-image"
