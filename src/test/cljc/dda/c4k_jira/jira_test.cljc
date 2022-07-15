@@ -11,6 +11,8 @@
           :spec
           {:secretName "jira-secret"
            :commonName "xx"
+           :duration "2160h",
+           :renewBefore "360h",
            :dnsNames ["xx"]
            :issuerRef
            {:name "prod", :kind "ClusterIssuer"}}}
@@ -34,12 +36,12 @@
            :annotations
            {:cert-manager.io/cluster-issuer
             "staging"
-            :nginx.ingress.kubernetes.io/proxy-body-size "256m"
-            :nginx.ingress.kubernetes.io/ssl-redirect "true"
-            :nginx.ingress.kubernetes.io/rewrite-target "/"
-            :nginx.ingress.kubernetes.io/proxy-connect-timeout "300"
-            :nginx.ingress.kubernetes.io/proxy-send-timeout "300"
-            :nginx.ingress.kubernetes.io/proxy-read-timeout "300"}
+            :ingress.kubernetes.io/proxy-body-size "256m"
+            :ingress.kubernetes.io/ssl-redirect "true"
+            :ingress.kubernetes.io/rewrite-target "/"
+            :ingress.kubernetes.io/proxy-connect-timeout "300"
+            :ingress.kubernetes.io/proxy-send-timeout "300"
+            :ingress.kubernetes.io/proxy-read-timeout "300"}
            :namespace "default"}
           :spec
           {:tls [{:hosts ["xx"], :secretName "jira-secret"}]
