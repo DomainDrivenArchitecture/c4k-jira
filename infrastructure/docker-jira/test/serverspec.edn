@@ -1,3 +1,8 @@
-{:file [{:path "/app/entrypoint.sh"}
-        {:path "/var/jira"}
-        {:path "/opt/atlassian-jira-software-standalone"}]}
+{:file [{:path "/app"} 
+        {:path "/opt/atlassian-jira-software-standalone"}
+        {:path "/app/entrypoint.sh" :mod "744"}
+        {:path "/opt/atlassian-jira-software-standalone/bin/setenv.sh" :mod "744"}
+        {:path "/app/dbconfig.xml" :mod "660"}
+        {:path "/opt/atlassian-jira-software-standalone/conf/server.xml" :mod "660"}
+        {:path "/opt/atlassian-jira-software-standalone/conf/logging.properties" :mod "660"}
+        {:path "/var/jira"}]}

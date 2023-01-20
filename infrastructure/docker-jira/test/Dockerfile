@@ -5,4 +5,4 @@ RUN curl -L -o /tmp/serverspec.jar \
 
 COPY serverspec.edn /tmp/serverspec.edn
 
-RUN java -jar /tmp/serverspec.jar /tmp/serverspec.edn -v
+RUN java -jar /tmp/serverspec.jar /tmp/serverspec.edn
