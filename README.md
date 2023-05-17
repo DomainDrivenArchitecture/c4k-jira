@@ -35,6 +35,16 @@ target/graalvm/c4k-jira src/test/resources/valid-config.edn src/test/resources/v
 * [Example Setup on Hetzner](doc/SetupOnHetzner.md)
 * [Backup and Restore](doc/BackupAndRestore.md)
 
+## Development & mirrors
+
+Development happens at: https://repo.prod.meissa.de/meissa/c4k-jira
+
+Mirrors are:
+
+* https://gitlab.com/domaindrivenarchitecture/c4k-jira (issues and PR, CI)
+
+For more details about our repository model see: https://repo.prod.meissa.de/meissa/federate-your-repos
+
 ## License
 
 Copyright © 2021 meissa GmbH
