@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eux pipefail
+
 function main() {
 
     upgradeSystem
